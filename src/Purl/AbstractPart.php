@@ -12,14 +12,13 @@ use ArrayAccess;
 abstract class AbstractPart implements ArrayAccess
 {
     protected bool $initialized = false;
+
+    /** @var array<string, mixed> */
     protected array $data = [];
 
     /** @var string[] */
     protected array $partClassMap = [];
 
-    /**
-     * @return mixed[]
-     */
     public function getData(): array
     {
         $this->initialize();
@@ -27,9 +26,6 @@ abstract class AbstractPart implements ArrayAccess
         return $this->data;
     }
 
-    /**
-     * @param mixed[] $data
-     */
     public function setData(array $data): void
     {
         $this->initialize();
@@ -134,7 +130,7 @@ abstract class AbstractPart implements ArrayAccess
         $this->doInitialize();
     }
 
-    protected function preparePartValue(string $key, string|AbstractPart $value) : mixed
+    protected function preparePartValue(string $key, string|AbstractPart|null $value) : mixed
     {
         if (! isset($this->partClassMap[$key])) {
             return $value;

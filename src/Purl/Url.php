@@ -31,7 +31,7 @@ class Url extends AbstractPart
 
     private ?ParserInterface $parser;
 
-    /** @var mixed[] */
+    /** @var array<string, mixed> */
     protected array $data = [
         'scheme'             => null,
         'host'               => null,

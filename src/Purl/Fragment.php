@@ -20,6 +20,7 @@ class Fragment extends AbstractPart
     /** @var string|null The original fragment string. */
     private ?string $fragment;
 
+    /** @var array<string, mixed> */
     protected array $data = [
         'path'  => null,
         'query' => null,
