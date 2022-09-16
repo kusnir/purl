@@ -27,14 +27,12 @@ use function strpos;
  */
 class Url extends AbstractPart
 {
-    /** @var string|null The original url string. */
-    private $url;
+    private ?string $url;
 
-    /** @var ParserInterface|null */
-    private $parser;
+    private ?ParserInterface $parser;
 
     /** @var mixed[] */
-    protected $data = [
+    protected array $data = [
         'scheme'             => null,
         'host'               => null,
         'port'               => null,
@@ -51,7 +49,7 @@ class Url extends AbstractPart
     ];
 
     /** @var string[] */
-    protected $partClassMap = [
+    protected array $partClassMap = [
         'path' => 'Purl\Path',
         'query' => 'Purl\Query',
         'fragment' => 'Purl\Fragment',
@@ -94,7 +92,7 @@ class Url extends AbstractPart
         $url = new self($baseUrl);
 
         if (isset($_SERVER['REQUEST_URI']) && $_SERVER['REQUEST_URI']) {
-            if (strpos($_SERVER['REQUEST_URI'], '?') !== false) {
+            if (str_contains($_SERVER['REQUEST_URI'], '?')) {
                 [$path, $query] = explode('?', $_SERVER['REQUEST_URI'], 2);
             } else {
                 $path  = $_SERVER['REQUEST_URI'];
@@ -141,10 +139,7 @@ class Url extends AbstractPart
         $this->parser = $parser;
     }
 
-    /**
-     * @param string|Url $url
-     */
-    public function join($url): Url
+    public function join(string|Url $url): Url
     {
         $this->initialize();
         $parts = $this->getParser()->parseUrl($url);
@@ -168,10 +163,7 @@ class Url extends AbstractPart
         return $this;
     }
 
-    /**
-     * @param mixed $value
-     */
-    public function set(string $key, $value): AbstractPart
+    public function set(string $key, mixed $value): AbstractPart
     {
         $this->initialize();
 
@@ -226,7 +218,7 @@ class Url extends AbstractPart
     {
         $this->initialize();
 
-        return ($this->user !== null && $this->pass !== null ? $this->user . ($this->pass !== null ? ':' . $this->pass : '') . '@' : '') . $this->host . ($this->port !== null ? ':' . $this->port : '');
+        return ($this->user !== null && $this->pass !== null ? $this->user .  ':' . $this->pass . '@' : '') . $this->host . ($this->port !== null ? ':' . $this->port : '');
     }
 
     public function getUrl(): string

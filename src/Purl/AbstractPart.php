@@ -8,19 +8,14 @@ use ArrayAccess;
 
 /**
  * AbstractPart class is implemented by each part of a Url where necessary.
- *
- * @implements ArrayAccess
  */
 abstract class AbstractPart implements ArrayAccess
 {
-    /** @var bool */
-    protected $initialized = false;
-
-    /** @var mixed[] */
-    protected $data = [];
+    protected bool $initialized = false;
+    protected array $data = [];
 
     /** @var string[] */
-    protected $partClassMap = [];
+    protected array $partClassMap = [];
 
     /**
      * @return mixed[]
@@ -54,20 +49,14 @@ abstract class AbstractPart implements ArrayAccess
         return isset($this->data[$key]);
     }
 
-    /**
-     * @return mixed|null
-     */
-    public function get(string $key)
+    public function get(string $key) : mixed
     {
         $this->initialize();
 
         return $this->data[$key] ?? null;
     }
 
-    /**
-     * @param mixed $value
-     */
-    public function set(string $key, $value): AbstractPart
+    public function set(string $key, mixed $value): AbstractPart
     {
         $this->initialize();
         $this->data[$key] = $value;
@@ -75,10 +64,7 @@ abstract class AbstractPart implements ArrayAccess
         return $this;
     }
 
-    /**
-     * @param mixed $value
-     */
-    public function add($value): AbstractPart
+    public function add(mixed $value): AbstractPart
     {
         $this->initialize();
         $this->data[] = $value;
@@ -100,18 +86,12 @@ abstract class AbstractPart implements ArrayAccess
         return $this->has($key);
     }
 
-    /**
-     * @return mixed
-     */
-    public function __get(string $key)
+    public function __get(string $key) : mixed
     {
         return $this->get($key);
     }
 
-    /**
-     * @param mixed $value
-     */
-    public function __set(string $key, $value): void
+    public function __set(string $key, mixed $value): void
     {
         $this->set($key, $value);
     }
@@ -121,39 +101,24 @@ abstract class AbstractPart implements ArrayAccess
         $this->remove($key);
     }
 
-    /**
-     * @param mixed $key
-     */
-    public function offsetExists($key): bool
+    public function offsetExists(mixed $key): bool
     {
         $this->initialize();
 
         return isset($this->data[$key]);
     }
 
-    /**
-     * @param mixed $key
-     *
-     * @return mixed
-     */
-    public function offsetGet($key)
+    public function offsetGet(mixed $key) : mixed
     {
         return $this->get($key);
     }
 
-    /**
-     * @param mixed $key
-     * @param mixed $value
-     */
-    public function offsetSet($key, $value): void
+    public function offsetSet(mixed $key, mixed $value): void
     {
         $this->set($key, $value);
     }
 
-    /**
-     * @param mixed $key
-     */
-    public function offsetUnset($key): void
+    public function offsetUnset(mixed $key): void
     {
         $this->remove($key);
     }
@@ -169,12 +134,7 @@ abstract class AbstractPart implements ArrayAccess
         $this->doInitialize();
     }
 
-    /**
-     * @param string|AbstractPart $value
-     *
-     * @return mixed
-     */
-    protected function preparePartValue(string $key, $value)
+    protected function preparePartValue(string $key, string|AbstractPart $value) : mixed
     {
         if (! isset($this->partClassMap[$key])) {
             return $value;

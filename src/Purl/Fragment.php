@@ -18,24 +18,21 @@ use function sprintf;
 class Fragment extends AbstractPart
 {
     /** @var string|null The original fragment string. */
-    private $fragment;
+    private ?string $fragment;
 
-    /** @var mixed[] */
-    protected $data = [
+    protected array $data = [
         'path'  => null,
         'query' => null,
     ];
 
     /** @var string[] */
-    protected $partClassMap = [
+    protected array $partClassMap = [
         'path' => 'Purl\Path',
         'query' => 'Purl\Query',
     ];
 
-    /**
-     * @param string|Path|null $fragment
-     */
-    public function __construct($fragment = null, ?Query $query = null)
+
+    public function __construct(string|Path|null $fragment = null, ?Query $query = null)
     {
         if ($fragment instanceof Path) {
             $this->initialized  = true;
@@ -47,10 +44,7 @@ class Fragment extends AbstractPart
         $this->data['query'] = $query;
     }
 
-    /**
-     * @param mixed $value
-     */
-    public function set(string $key, $value): AbstractPart
+    public function set(string $key, mixed $value): AbstractPart
     {
         $this->initialize();
         $this->data[$key] = $this->preparePartValue($key, $value);
@@ -113,7 +107,7 @@ class Fragment extends AbstractPart
 
     protected function doInitialize(): void
     {
-        if ($this->fragment !== null) {
+        if (isset($this->fragment)) {
             $parsed = parse_url($this->fragment);
 
             if (is_array($parsed)) {
