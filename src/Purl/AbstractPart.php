@@ -130,7 +130,7 @@ abstract class AbstractPart implements ArrayAccess
         $this->doInitialize();
     }
 
-    protected function preparePartValue(string $key, string|AbstractPart|null $value) : mixed
+    protected function preparePartValue(string $key, string|int|AbstractPart|null $value) : mixed
     {
         if (! isset($this->partClassMap[$key])) {
             return $value;
